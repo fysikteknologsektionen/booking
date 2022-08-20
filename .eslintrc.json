@@ -1,3 +1,12 @@
 {
-  "extends": ["next/core-web-vitals", "airbnb", "airbnb/hooks"]
+  "extends": [
+    "next/core-web-vitals",
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:react/jsx-runtime",
+    "prettier"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": [2, { "extensions": [".ts", ".tsx"] }]
+  }
 }
