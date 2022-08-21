@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier . -w",
+    "check-format": "prettier . -c",
     "prepare": "husky install",
     "test": "jest --watch"
   },
