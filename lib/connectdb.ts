@@ -11,7 +11,7 @@ if (!cached) {
 
 /**
  * Connect mongoose to database.
- * @param db_uri Database uri.
+ * @param db_uri Database uri. Defaults to environment variable DB_URI.
  * @returns (cached) mongoose connection.
  */
 async function connectdb(db_uri: string | undefined = DB_URI) {

@@ -11,7 +11,7 @@ export interface IUser {
   name: string;
   email: string;
   googleId: string;
-  avatarUrl?: string;
+  image?: string;
   role: Role;
 }
 
@@ -19,7 +19,7 @@ const userSchema = new Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true },
   googleId: { type: String, required: true },
-  avatarUrl: String,
+  image: String,
   role: { type: Number, default: Role.USER, enum: Role },
 });
 
