@@ -1,5 +1,8 @@
 import { createLogger, format, transports } from "winston";
 
+/**
+ * Default backend logger.
+ */
 const logger = createLogger({
   format: format.combine(format.timestamp(), format.json()),
   transports: [

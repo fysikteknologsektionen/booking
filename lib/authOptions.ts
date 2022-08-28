@@ -15,6 +15,9 @@ if (!process.env.GOOGLE_OAUTH_CLIENT_SECRET) {
   );
 }
 
+/**
+ * Options object for `next-auth`
+ */
 const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({

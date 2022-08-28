@@ -3,6 +3,11 @@ import { Error } from "mongoose";
 import ApiError from "./ApiError";
 import logger from "./logger";
 
+/**
+ * Wrap API handler to catch errors etc.
+ * @param fn API handler function.
+ * @returns Wrapped API handler.
+ */
 export default function apiHandler(
   fn: (req: NextApiRequest, res: NextApiResponse) => Promise<void>
 ) {
