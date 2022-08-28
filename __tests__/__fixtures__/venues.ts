@@ -1,8 +1,8 @@
-import { set } from "date-fns";
+import { addDays, set } from "date-fns";
 import { Types } from "mongoose";
-import { IVenue } from "../../../models/Venue";
+import { Venue } from "models/VenueModel";
 
-const venues: (IVenue & { _id: Types.ObjectId })[] = [
+const venues: (Venue & { _id: Types.ObjectId })[] = [
   {
     _id: new Types.ObjectId("259ebf28b0bfec8800e624f6"),
     name: "Focus",
@@ -10,13 +10,14 @@ const venues: (IVenue & { _id: Types.ObjectId })[] = [
     timeslots: [
       {
         name: "Booking slot 1",
-        weekdays: [1, 3, 5],
+        startDate: addDays(new Date(), 14),
         startTime: set(new Date(), { hours: 17, minutes: 30 }),
         endTime: set(new Date(), { hours: 22, minutes: 0 }),
       },
       {
         name: "Booking slot 2",
-        weekdays: [0, 2, 4, 6],
+        startDate: new Date(),
+        endDate: addDays(new Date(), 30),
         startTime: set(new Date(), { hours: 12, minutes: 0 }),
         endTime: set(new Date(), { hours: 15, minutes: 0 }),
       },
@@ -33,13 +34,14 @@ const venues: (IVenue & { _id: Types.ObjectId })[] = [
     timeslots: [
       {
         name: "Booking slot 1",
-        weekdays: [1, 3, 5],
+        startDate: new Date(),
+        endDate: addDays(new Date(), 14),
         startTime: set(new Date(), { hours: 17, minutes: 30 }),
         endTime: set(new Date(), { hours: 22, minutes: 0 }),
       },
       {
         name: "Booking slot 2",
-        weekdays: [0, 2, 4, 6],
+        startDate: new Date(),
         startTime: set(new Date(), { hours: 12, minutes: 0 }),
         endTime: set(new Date(), { hours: 15, minutes: 0 }),
       },

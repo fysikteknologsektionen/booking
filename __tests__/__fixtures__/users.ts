@@ -1,13 +1,13 @@
 import { Types } from "mongoose";
-import { IUser, Role } from "../../../models/User";
+import { User, Role } from "models/UserModel";
 
-const users: (IUser & { _id: Types.ObjectId })[] = [
+const users: (User & { _id: Types.ObjectId })[] = [
   {
     _id: new Types.ObjectId("4bd0f69444cd0eed19c8c326"),
     name: "John Doe",
     email: "john.doe@example.com",
     googleId: "98a79ecbc89dc44adc93569a1d44ae93",
-    avatarUrl: "htts://example.com/avatar.png",
+    image: "htts://example.com/avatar.png",
     role: Role.USER,
   },
   {
@@ -15,7 +15,7 @@ const users: (IUser & { _id: Types.ObjectId })[] = [
     name: "Jane Doe",
     email: "jane.doe@example.com",
     googleId: "8fcdf2b4bcfc821146e38b33d745438e",
-    avatarUrl: undefined,
+    image: undefined,
     role: Role.MANAGER,
   },
   {
@@ -23,7 +23,7 @@ const users: (IUser & { _id: Types.ObjectId })[] = [
     name: "Richard Roe",
     email: "richard.roe@example.com",
     googleId: "80718d87020985d81df0b47327942135",
-    avatarUrl: "htts://example.com/avatar.png",
+    image: "htts://example.com/avatar.png",
     role: Role.MANAGER,
   },
   {
@@ -31,7 +31,7 @@ const users: (IUser & { _id: Types.ObjectId })[] = [
     name: "Judy Roe",
     email: "judy.roe@example.com",
     googleId: "566e2f51d0c9a88858dd121add68a620",
-    avatarUrl: "htts://example.com/avatar.png",
+    image: "htts://example.com/avatar.png",
     role: Role.ADMIN,
   },
 ];
