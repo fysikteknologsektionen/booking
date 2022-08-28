@@ -1,3 +1,4 @@
+import { Role } from "models/User";
 import type Mongoose from "mongoose";
 import { DefaultSession } from "next-auth";
 import { DefaultJWT } from "next-auth/jwt";
@@ -11,16 +12,21 @@ declare global {
 }
 
 declare module "next-auth" {
-  interface JWT extends DefaultJWT {
-    name?: string | null;
-    image?: string | null;
-    sub?: string;
-  }
   interface Session extends DefaultSession {
-    user?: {
-      id?: string | null;
-      name?: string | null;
-      image?: string | null;
+    user: {
+      id: string;
+      name: string;
+      image?: string;
+      role: Role;
     };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    sub: string;
+    name: string;
+    image?: string;
+    role: Role;
   }
 }
