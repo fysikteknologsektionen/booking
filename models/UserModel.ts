@@ -1,5 +1,5 @@
 import { Model, model, models, Schema } from "mongoose";
-import Venue from "./Venue";
+import VenueModel from "./VenueModel";
 
 export enum Role {
   USER,
@@ -7,7 +7,7 @@ export enum Role {
   ADMIN,
 }
 
-export interface IUser {
+export interface User {
   name: string;
   email: string;
   googleId: string;
@@ -15,7 +15,7 @@ export interface IUser {
   role: Role;
 }
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<User>({
   name: { type: String, required: true },
   email: { type: String, required: true },
   googleId: { type: String, required: true },
@@ -29,7 +29,7 @@ const userSchema = new Schema<IUser>({
 // eslint-disable-next-line func-names
 userSchema.pre("save", async function () {
   if (this.isDirectModified("role") && this.role !== Role.MANAGER) {
-    await Venue.updateMany(
+    await VenueModel.updateMany(
       { managers: this.id },
       {
         $pull: {
@@ -40,6 +40,7 @@ userSchema.pre("save", async function () {
   }
 });
 
-const User = (models.User as Model<IUser>) || model<IUser>("User", userSchema);
+const UserModel =
+  (models.User as Model<User>) || model<User>("User", userSchema);
 
-export default User;
+export default UserModel;
