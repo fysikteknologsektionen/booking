@@ -2,17 +2,9 @@ import requireRole from "lib/middleware/requireRole";
 import UserModel, { Role, User } from "models/UserModel";
 import { Session } from "next-auth";
 import Repository from "repositories/Repository";
+import AbstractController from "./AbstractController";
 
-export default class UserController {
-  session: Session | null;
-
-  Repository: Repository<User>;
-
-  private constructor(session: Session | null, repository: Repository<User>) {
-    this.session = session;
-    this.Repository = repository;
-  }
-
+export default class UserController extends AbstractController<User> {
   public getUsers() {
     requireRole(this.session, Role.ADMIN);
     return this.Repository.list();
