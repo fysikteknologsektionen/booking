@@ -2,7 +2,7 @@ import connectdb from "lib/connectdb";
 import { LeanDocument, Model } from "mongoose";
 
 export default class Repository<T> {
-  Model: Model<T, {}, {}, {}, any>;
+  private Model: Model<T, {}, {}, {}, any>;
 
   private constructor(model: Model<T, {}, {}, {}, any>) {
     this.Model = model;
@@ -12,8 +12,12 @@ export default class Repository<T> {
    * List documents.
    * @returns Array of lean documents.
    */
-  public list() {
-    return this.Model.find().lean().exec();
+  public list({ projection }: { projection?: (keyof T)[] } = {}) {
+    let query = this.Model.find();
+    if (projection) {
+      query = query.select(projection);
+    }
+    return query.lean().exec();
   }
 
   /**
@@ -21,8 +25,12 @@ export default class Repository<T> {
    * @param id Document id.
    * @returns Specified document.
    */
-  public get(id: string) {
-    return this.Model.findById(id).orFail().lean().exec();
+  public get(id: string, { projection }: { projection?: (keyof T)[] } = {}) {
+    let query = this.Model.findById(id).orFail();
+    if (projection) {
+      query = query.select(projection);
+    }
+    return query.lean().exec();
   }
 
   /**
@@ -42,8 +50,16 @@ export default class Repository<T> {
    * @param data New document data.
    * @returns Updated document.
    */
-  public async update(id: string, data: Partial<T>) {
-    const doc = await this.Model.findById(id).orFail().exec();
+  public async update(
+    id: string,
+    data: Partial<T>,
+    { projection }: { projection?: (keyof T)[] } = {}
+  ) {
+    let query = this.Model.findById(id).orFail();
+    if (projection) {
+      query = query.select(projection);
+    }
+    const doc = await query.exec();
     doc.set(data);
     await doc.save();
     return doc.toObject<LeanDocument<T>>();
