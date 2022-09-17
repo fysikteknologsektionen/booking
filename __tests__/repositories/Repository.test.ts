@@ -1,9 +1,7 @@
 import UserModel from "models/UserModel";
-import VenueModel from "models/VenueModel";
 import { Error } from "mongoose";
 import Repository from "repositories/Repository";
 import users from "../__fixtures__/users";
-import venues from "../__fixtures__/venues";
 import { dbDown, dbDropCollections, dbUp } from "../__utils__/db";
 
 beforeAll(async () => {
@@ -17,7 +15,6 @@ afterAll(async () => {
 beforeEach(async () => {
   await dbDropCollections();
   await UserModel.create(users);
-  await VenueModel.create(venues);
 });
 
 // We use the User model in this suite, but any model could be used in
@@ -47,7 +44,7 @@ describe("get", () => {
   });
 
   test("throws if doc doesn't exist", async () => {
-    const repo = await Repository.makeRepository(VenueModel);
+    const repo = await Repository.makeRepository(UserModel);
     // Id for non existant user
     const id = "2b378f7a740f5ad24a85f83c";
     await expect(repo.get(id)).rejects.toThrow(Error.DocumentNotFoundError);
@@ -56,7 +53,7 @@ describe("get", () => {
 
 describe("create", () => {
   test("successfully creates new doc", async () => {
-    const repo = await Repository.makeRepository(VenueModel);
+    const repo = await Repository.makeRepository(UserModel);
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, ...data } = users[0];
     const doc = await repo.create(data);
@@ -66,7 +63,7 @@ describe("create", () => {
   });
 
   test("throws if doc already exists", async () => {
-    const repo = await Repository.makeRepository(VenueModel);
+    const repo = await Repository.makeRepository(UserModel);
     // We match instanceof MongoServerError since it's a peer depedency of mongoose,
     // so instead we match we exact expected error message
     await expect(repo.create(users[0])).rejects.toThrowError(
@@ -77,7 +74,7 @@ describe("create", () => {
 
 describe("update", () => {
   test("successfully updates existing doc", async () => {
-    const repo = await Repository.makeRepository(VenueModel);
+    const repo = await Repository.makeRepository(UserModel);
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id } = users[0];
     const data = {
@@ -95,7 +92,7 @@ describe("update", () => {
   });
 
   test("throws if doc doesn't exist", async () => {
-    const repo = await Repository.makeRepository(VenueModel);
+    const repo = await Repository.makeRepository(UserModel);
     // Id for non existant user
     const id = "2b378f7a740f5ad24a85f83c";
     const data = {
@@ -109,7 +106,7 @@ describe("update", () => {
 
 describe("delete", () => {
   test("successfully deletes existing document", async () => {
-    const repo = await Repository.makeRepository(VenueModel);
+    const repo = await Repository.makeRepository(UserModel);
     // First verify that document exists
     const id = "2b378f7a740f5ad24a85f83b";
     await expect(repo.get(id)).resolves.toBeDefined();
@@ -120,7 +117,7 @@ describe("delete", () => {
   });
 
   test("throws if doc doesn't exist", async () => {
-    const repo = await Repository.makeRepository(VenueModel);
+    const repo = await Repository.makeRepository(UserModel);
     // Id for non existant user
     const id = "2b378f7a740f5ad24a85f83c";
     await expect(repo.delete(id)).rejects.toThrow(Error.DocumentNotFoundError);
