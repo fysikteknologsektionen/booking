@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
-import authOptions from "../authOptions";
+import authOptions from "lib/authOptions";
 
 /**
  * Return active user session.

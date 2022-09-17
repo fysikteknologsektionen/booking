@@ -1,4 +1,4 @@
-import requireRole from "lib/middleware/requireRole";
+import requireRole from "lib/requireRole";
 import UserModel, { Role, User } from "models/UserModel";
 import { Session } from "next-auth";
 import Repository from "repositories/Repository";
