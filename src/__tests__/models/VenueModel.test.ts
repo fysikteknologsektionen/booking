@@ -1,8 +1,8 @@
-import { set } from "date-fns";
 import { Error } from "mongoose";
 import VenueModel from "models/VenueModel";
-import venues from "../__fixtures__/venues";
+import { set } from "date-fns";
 import { dbDown, dbDropCollections, dbUp } from "../__utils__/db";
+import venues from "../__fixtures__/venues";
 
 beforeAll(async () => {
   await dbUp();
@@ -17,7 +17,7 @@ beforeEach(async () => {
   await VenueModel.create(venues);
 });
 
-describe("Timeslot", () => {
+describe("Timeslot model", () => {
   test("throws if startDate is after endDate", async () => {
     const venue = await VenueModel.findById("259ebf28b0bfec8800e624f6")
       .orFail()
