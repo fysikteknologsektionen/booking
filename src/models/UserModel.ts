@@ -20,7 +20,7 @@ const userSchema = new Schema<User>({
   email: { type: String, required: true },
   googleId: { type: String, required: true },
   image: String,
-  role: { type: Number, default: Role.USER, enum: Role },
+  role: { type: Number, enum: Role, default: Role.USER, required: true },
 });
 
 /**

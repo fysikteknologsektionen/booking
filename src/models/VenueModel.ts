@@ -21,8 +21,8 @@ const timeslotSchema = new Schema<Timeslot>({
         }
         return this.startDate < value;
       },
+      message: "endDate must be after startDate if defined",
     },
-    message: "endDate must be after startDate if defined",
   },
   startTime: { type: Date, required: true },
   endTime: {
