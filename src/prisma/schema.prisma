@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int                @id @default(autoincrement())
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
   name      String
   email     String
-  googleId  String
+  googleId  String             @unique
   image     String?
-  role      Role     @default(USER)
+  role      Role               @default(USER)
+  manages   UserManagesVenue[]
 }
 
 enum Role {
@@ -25,13 +26,24 @@ enum Role {
 }
 
 model Venue {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id           Int                @id @default(autoincrement())
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
   name         String
   description  String?
+  managers     UserManagesVenue[]
   timeslots    Timeslot[]
   reservations Reservation[]
+}
+
+model UserManagesVenue {
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  venueId   Int
+  venue     Venue    @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  @@id([userId, venueId])
 }
 
 model Timeslot {
@@ -43,7 +55,7 @@ model Timeslot {
   startTime DateTime
   endTime   DateTime
   venueId   Int
-  venue     Venue     @relation(fields: [venueId], references: [id])
+  venue     Venue     @relation(fields: [venueId], references: [id], onDelete: Cascade)
 }
 
 model Reservation {
@@ -58,7 +70,7 @@ model Reservation {
   endTime           DateTime
   status            Status   @default(PENDING)
   venueId           Int
-  venue             Venue    @relation(fields: [venueId], references: [id])
+  venue             Venue    @relation(fields: [venueId], references: [id], onDelete: SetNull)
 }
 
 enum Status {

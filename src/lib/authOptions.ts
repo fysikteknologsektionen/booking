@@ -1,19 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import UserModel from "models/UserModel";
-import connectdb from "./connectdb";
-
-if (!process.env.GOOGLE_OAUTH_CLIENT_ID) {
-  throw new Error(
-    "Cannot authenticate: GOOGLE_OAUTH_CLIENT_ID environment variable must be set"
-  );
-}
-
-if (!process.env.GOOGLE_OAUTH_CLIENT_SECRET) {
-  throw new Error(
-    "Cannot authenticate: GOOGLE_OAUTH_CLIENT_SECRET environment variable must be set"
-  );
-}
+import env from "utils/env";
+import prisma from "./prisma";
 
 /**
  * Options object for `next-auth`
@@ -21,8 +9,8 @@ if (!process.env.GOOGLE_OAUTH_CLIENT_SECRET) {
 const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+      clientId: env.GOOGLE_OAUTH_CLIENT_ID,
+      clientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET,
     }),
   ],
   debug: false,
@@ -34,25 +22,31 @@ const authOptions: NextAuthOptions = {
         return token;
       }
 
+      if (!googleUser.name || !googleUser.email) {
+        throw Error("Malformed user response from Google.");
+      }
+
       // Update local user data
-      await connectdb();
-      const localUser = await UserModel.findOneAndUpdate(
-        { googleId: googleUser.id },
-        {
+      const localUser = await prisma.user.upsert({
+        where: { googleId: googleUser.id },
+        update: {
           name: googleUser.name,
           email: googleUser.email,
           image: googleUser.image,
         },
-        { upsert: true, new: true }
-      )
-        .lean()
-        .exec();
+        create: {
+          googleId: googleUser.id,
+          name: googleUser.name,
+          email: googleUser.email,
+          image: googleUser.image,
+        },
+      });
 
       // Create a new token
       return {
-        sub: localUser._id.toString(),
+        sub: localUser.id,
         name: localUser.name,
-        image: localUser.image,
+        image: localUser.image ?? undefined,
         role: localUser.role,
       };
     },
