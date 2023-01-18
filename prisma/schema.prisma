@@ -16,7 +16,7 @@ model User {
   googleId  String             @unique
   image     String?
   role      Role               @default(USER)
-  manages   UserManagesVenue[]
+  venues    UserManagesVenue[]
 }
 
 enum Role {
@@ -69,8 +69,8 @@ model Reservation {
   startTime         DateTime
   endTime           DateTime
   status            Status   @default(PENDING)
-  venueId           Int
-  venue             Venue    @relation(fields: [venueId], references: [id], onDelete: SetNull)
+  venueId           Int?
+  venue             Venue?   @relation(fields: [venueId], references: [id], onDelete: SetNull)
 }
 
 enum Status {
