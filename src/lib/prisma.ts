@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import env from "utils/env";
+import config from "./config";
 
 declare let global: { prisma: PrismaClient };
 
 function getPrismaClient(): PrismaClient {
-  if (env.NODE_ENV === "production") {
+  if (config.NODE_ENV === "production") {
     return new PrismaClient();
   }
   // Cache client in dev to prevent exhausting connections

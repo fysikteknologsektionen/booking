@@ -1,5 +1,5 @@
-import prisma from "lib/prisma";
-import { adminProcedure, publicProcedure, router } from "server/trpc";
+import prisma from "@/lib/prisma";
+import { adminProcedure, publicProcedure, router } from "@/server/trpc";
 import { z } from "zod";
 
 export default router({

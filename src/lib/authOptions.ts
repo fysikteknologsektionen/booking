@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import env from "utils/env";
 import prisma from "./prisma";
+import config from './config';
 
 /**
  * Options object for `next-auth`
@@ -9,8 +9,8 @@ import prisma from "./prisma";
 const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET,
+      clientId: config.GOOGLE_OAUTH_CLIENT_ID,
+      clientSecret: config.GOOGLE_OAUTH_CLIENT_SECRET,
     }),
   ],
   debug: false,

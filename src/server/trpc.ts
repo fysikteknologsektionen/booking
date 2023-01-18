@@ -1,7 +1,7 @@
 import { Role } from "@prisma/client";
 import { initTRPC, inferAsyncReturnType, TRPCError } from "@trpc/server";
 import { CreateNextContextOptions } from "@trpc/server/adapters/next";
-import getServerSession from "lib/getServerSession";
+import getServerSession from "@/lib/getServerSession";
 
 export async function createContext(opts: CreateNextContextOptions) {
   const session = await getServerSession(opts.req, opts.res);
