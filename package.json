@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "check-format": "prettier -c ."
   },
   "dependencies": {
     "@next/font": "13.1.2",
@@ -31,6 +32,7 @@
     "@types/react-dom": "18.0.10",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
+    "husky": "^8.0.3",
     "prettier": "^2.8.3",
     "prisma": "^4.9.0"
   }
