@@ -4,6 +4,7 @@ const envVars = [
   "NEXTAUTH_SECRET",
   "GOOGLE_OAUTH_CLIENT_ID",
   "GOOGLE_OAUTH_CLIENT_SECRET",
+  "DATABASE_URL",
 ] as const;
 
 const config = envVars.reduce(
